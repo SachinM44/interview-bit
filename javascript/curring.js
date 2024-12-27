@@ -8,5 +8,19 @@ function add(a){
     }
 }
 console.log(add(5)(3)(4))
+//in modren .js 
+//const add = (a) =>  (b) => (c)=> a+b+c;
 //this is currying , where the function not lets u execute unitll and unless you dont have all arguement from the input 
 // practicality is => when are doing automated email function 
+function autoEmail(name){
+    return function(subject){
+        return function(body){
+console.log(`sending email to ${name} with ${subject} subject and with ${body} body `)
+        }
+    }
+}
+
+let step1= autoEmail("sachin69778@gmail.com")
+let step2=step1("new user information ");
+let step3=step2("bofy is created ")
+// its just a multiple closures , inside the funcitons
