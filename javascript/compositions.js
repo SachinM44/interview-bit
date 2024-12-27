@@ -26,3 +26,4 @@ function cmpose(...fn){
     return fns.reduce((a,b) => b(a),value)
     }
 }
+// use this when you have multiple function and you have to call one after another , u can use composition function 
