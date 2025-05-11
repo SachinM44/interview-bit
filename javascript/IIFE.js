@@ -1,4 +1,8 @@
 ///IIFE = Imideatly Involked function Expression
+// know for its execution immiteatly after its decalration 
+(function sub(a,b){
+    return (a-b)
+})(2,3)
 (function add(a,d){
     console.log(a+d)
 })(2,3);

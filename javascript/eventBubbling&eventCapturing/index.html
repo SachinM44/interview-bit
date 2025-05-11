@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #topdiv {
+        border: 10px solid red;
+        padding: 3px;
+    }
+    #midDiv {
+        border: 10px solid rgb(113, 12, 213);
+        padding: 5px;
+    }
+    #innerdiv {
+        border: 10px solid green;
+        padding: 4px;
+    }
+</style>
+<body>
+    <div id="topdiv">its the topdiv
+        <div id="midDiv">
+            hllo from the mid div 
+            <div id="innerdiv">
+                this is the inner div
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("topdiv").addEventListener("click", () => {
+            console.log("top div has been called");
+        },true );
+
+        document.getElementById("midDiv").addEventListener("click", () => {
+            console.log("mid div has been called here");
+        }, );
+
+        document.getElementById("innerdiv").addEventListener("click", () => {
+            console.log("inner div is called");
+        }, );
+    </script>
+</body>
+</html>
+///over all the event capturing the propogation modle frome the higher order to lower order elemets (from boss to employee)
+// and the event bubling is the   propagation of model from the lower order to the higher order element (from boss to employee)
+
