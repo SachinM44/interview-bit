@@ -65,4 +65,4 @@ const p  = new Emplayee('sachin', 4884);
 console.log(p.name)
 console.log(p.getSalary(344))
 console.log(p.setSalary())
- 
+ con
