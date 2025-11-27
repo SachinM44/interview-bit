@@ -1,36 +1,29 @@
-
-import React from "react";
 import { useEffect } from "react";
-import { useState } from "react";
+import { useState } from "react"
 
+const InfinateLoop=()=>{
+const [count , setCount] =useState(50)
 
-const App=()=>{
-  const [state , setState] = useState(50)
-
- 
-
-  useEffect(()=>{
-     const hasReachedEnd=()=>{
-      /// add the buffer as well at the end 
-      ///so here u are calculating the screen height 
-      if(window.innerHeight + window.scrollY >= document.body.offsetHeight-30){
-        setState( prev=>prev + 50)
-      }
-     }
-   window.addEventListener('scroll',hasReachedEnd)
-
-   return () => window.removeEventListener('scroll',hasReachedEnd)
-  },[])
-
-  const elelments=[];
-  for(let i=0; i <state; i++){
-    elelments.push(<div key={i}>{i+1}</div>)
+useEffect(()=>{
+const hasReachedEnd=()=>{
+  if(window.innerHeight+window.scrollY >= document.documentElement.scrollHeight-30){
+    setCount(prev=>prev+50)
   }
-    return (
-    <div>
-  {elelments}
-    </div>
-  )
+}
+window.addEventListener('scroll',hasReachedEnd)
+ return ()=> window.removeEventListener('scroll',hasReachedEnd)
+},[])
+
+const elements=[];
+for(let i=0; i<count; i++){
+   elements.push(<div key={i}>{i+1}</div>)
 }
 
-export default App
+  return(
+    <div>
+     {elements}
+    </div>
+  )
+
+}
+export default InfinateLoop
