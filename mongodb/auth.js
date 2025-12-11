@@ -1,6 +1,7 @@
 const { JWT_SECRET } = require("./config");
 
 const jwt =require("jsonwebtoken");
+
 const authMiddleware = (req,res,next)=>{
     const token = req.headers.authorization;
 
@@ -10,10 +11,12 @@ const authMiddleware = (req,res,next)=>{
         next()
     }else{
         return res.json({
-        msg: "please login agian"
+        msg: "please login again"
     })
 }
 }
-module.exports={
-    authMiddleware
+
+
+module.export={
+authMiddleware
 }
