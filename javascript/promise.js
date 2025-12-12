@@ -85,3 +85,50 @@ const func=()=>{
 }
 
 func().then((user)=> console.log(user)).catch((error)=>console.log(error))
+
+
+// Promise.all([data,docker])
+//  u know what does promise.all does ? 
+const p1 = new Promise(res => {
+  console.log("p1 is here");
+  res("p1 done");
+});
+
+const p2 = new Promise(res => {
+  console.log("p2 is here");
+  res("p2 done");
+});
+
+const p3 = new Promise(res => {
+  console.log("p3 is here");
+  res("p3 done");
+});
+
+const p4 = new Promise(res => {
+  console.log("p4 is here");
+  res("p4 done");
+});
+
+const p5 = new Promise((res, rej) => {
+  console.log("p5 is here");
+  rej("p5 failed ❌");
+});
+
+const p6 = new Promise(res => {
+  console.log("p6 is here");
+  res("p6 done");
+});
+
+const p7 = new Promise(res => {
+  console.log("p7 is here");
+  res("p7 done");
+});
+
+const p8 = new Promise(res => {
+  console.log("p8 is here");
+  res("p8 done");
+});
+
+Promise.all([p1,p2,p3,p4,p5,p6,p7]).then((ans)=>console.log(ans)).catch((err)=>console.log(err))
+
+// the output will be  
