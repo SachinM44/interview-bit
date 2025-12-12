@@ -1,38 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
+//switch  case component in react 
 import './App.css'
+import CustomeCase from './components/customeCase'
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  //// how to use the generics in state \
-  const [user, seUser]=useState<{name:string, age:number} |null>(null)
-console.log(user)
-console.log(seUser)
-console.log(count)
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <CustomeCase value={0} />
+    <CustomeCase value={(e:number)=>e>10}/>
+
     </>
   )
 }
