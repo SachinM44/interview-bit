@@ -7,10 +7,13 @@ const number=[1,2,3,4,5]
 // console.log(doubled)
 // it will just multiply ur number
 
+const limit =2;
 
-
-const mapLimit= async ()=>{
+const mapLimit= (input, limit, iterable)=>{
   return new Promise((res, rej)=>{
-   number.map(num=> num * 4)
+
+
+
   })
 }
+Array.prototype.chop
