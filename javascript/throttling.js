@@ -1,23 +1,39 @@
-// so debounce is executes once after the activity/event stops 
-///mean when the user is keep on typing it does nothing , when the user stops clicking/typing - after perticular delay it will trigger 
+////here in throttling it will run specified timline no matter how of that event happedn or not . 
+//best for window resizing etc 
 
-import { useEffect } from "react";
 
-//lets say i keep on entering and i stopped after 1 second it will start execute 
-const debounce=(fn, delay)=>{
-    let timer;
+const throttling=(fn, delay)=>{
+    const lastCall=0;
     return (...args)=>{
-        clearTimeout(timer)
-       timer=setTimeout(() => {
-        fn.apply(this,args)
-       }, delay);
+        const now=Date.now()
+        console.log(now)
+        if(now-lastCall >= delay){
+            lastCall=now
+            fn(...args)
+        }
+
     }
 }
 
 
-// how you will use this 
-const handleSeach=debounce(()=>{
-    console.log('api call ')
-},500)
+//// good way 
 
-console.log(handleSeach)
+const thottle=(fn, limit)=>{
+let throttled=false
+return (...args)=>{
+   if(!throttled){
+    fn.apply(this,args)
+    throttled=true
+    setTimeout(() => {
+      throttled=false
+    }, limit);
+   }
+}
+}
+
+const hnadleSColl=throttling(()=>{
+    console.log('scoll position', window,scrollY)
+},)
+
+
+console.log(hnadleSColl())
