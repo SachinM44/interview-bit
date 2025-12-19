@@ -1,35 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import { useThrottle } from "./hooks/throttles";
+import useDbounce from "./hooks/debounce";
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  // const handleMouseEvent = useThrottle(
+  //   (e: React.MouseEvent<HTMLDivElement>) => {
+  //     setPosition({ x: e.clientX, y: e.clientY });
+  //   },
+  //   1000
+  // );
+
+  // return (
+  //   <div onMouseMove={handleMouseEvent} className="h-screen">
+  //     <p>
+  //       Mouse: {position.x} {position.y}
+  //     </p>
+  //     <p>this is the mouse movement</p>
+  //   </div>
+  // );
+
+  /// how u gonna use that debounce thing 
+
+  const [hasterm, setTerm] = useState<string>("")
+ const [result, setReslut]=useState(null)
+  
+  const handleChage = useDbounce((value: string) => {
+    setTerm(value)
+    console.log('this is getting fired')
+  }, 2000)
+
+  useEffect(() => {
+    if (!hasterm) {
+      return
+    }
+
+    const fetchData = async () => {
+      const response = await fetch('https://jsonplaceholder.typicode.com/todos/1')
+      const data = await response.json();
+      setReslut(data)
+    }
+    fetchData()
+  }, [hasterm])
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <input
+        type="text"
+        placeholder="enter ur things here "
+        onChange={(e) => handleChage(e.target.value)}/// to acces the currecnt input valeu
+      />
+      <li>{result?.title}</li>
+    </div>
   )
+
 }
 
-export default App
+export default App;
