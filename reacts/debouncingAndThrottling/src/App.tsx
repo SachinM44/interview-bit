@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useThrottle } from "./hooks/throttles";
 import useDbounce from "./hooks/debounce";
 
 function App() {
