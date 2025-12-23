@@ -1,5 +1,3 @@
-import { number } from "zod"
-import { it } from "zod/locales"
 
 function genirc(args: number): number {
 return args
