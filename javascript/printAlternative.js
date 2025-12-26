@@ -16,3 +16,7 @@ return temp
 }
 
 console.log(JSON.stringify(alterNate(arr1,arr2)))
+
+
+const arr=[,,,]
+console.log(arr.length)
