@@ -1,6 +1,6 @@
     //function to reveser the string 
 
-    let userName='garaga' 
+    let userName='i am sachin' 
 
 
     const reverse=()=>{
@@ -17,5 +17,5 @@ console.log(reverse())
 
 // but by js inbuilt function 
 
- const newStr= userName.split('').reverse().join('')
+ const newStr= userName.split("").reverse().join("")
  console.log(newStr)
