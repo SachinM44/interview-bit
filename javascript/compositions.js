@@ -1,6 +1,6 @@
 // when you have this 
 function add(args){
-    return args[0] * args[1];
+    return args[0] + args[1];
 }
 function sqaure(num){
  return num*num
