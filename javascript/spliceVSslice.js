@@ -30,8 +30,49 @@ const user={
         age:33
     }
 }
-
 Object.freeze(user)
+Object.freeze(user.wife)///if u want to freez only one kye , then u can use thia
 user.wife.age=344
 user.age=45
 console.log(user)
+
+
+
+// const debounce=(func, delay)=>{
+//     let timer;
+//     return (...args)=>{
+//         clearTimeout(timer)
+//     timer= setTimeout(() => {
+//        func.apply(this, args) 
+//      }, delay);
+//     }
+// }
+
+
+// const apicall=debounce(()=>{
+//     console.log('api call is happening')
+// },5000)
+
+// apicall()
+
+
+
+const throttling=(func,delay)=>{
+    let lastCall=0;
+    return (...args)=>{
+    let now=Date.now()
+    if(now-lastCall >= delay){
+        lastCall=now
+        func(...args)
+    }
+    }
+}
+
+const thorttledCall=throttling(()=>{
+    console.log('api is calling' ,Date.now())
+},1000)
+
+
+setInterval(() => {
+    thorttledCall()
+}, 200);
