@@ -97,3 +97,11 @@ console.log(deepCopy.info.age)
 
 const copy =structuredClone(newAge)
 console.log(copy)
+
+let string='sachin';
+
+const reversed = string.split('').reverse().join('');
+
+console.log(reversed)
+
+console.log(string===reversed)
