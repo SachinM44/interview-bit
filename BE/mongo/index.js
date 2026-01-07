@@ -100,6 +100,29 @@ app.put("/todos/:id", async (req, res) => {
   }
 });
 
+// DELETE /todos/:id - Delete todo
+
+app.delete("/todos/:id", async (req, res) => {
+  const { id } = req.params;
+  const todo = await Todo.findById(id);
+  if (!todo) {
+    return res.status(404).json({
+      msg: "Invalid todo",
+    });
+  }
+
+  try {
+    await Todo.findByIdAndDelete(id);
+    res.status(200).json({
+      msg: "todo deleted successfully",
+    });
+  } catch (err) {
+    res.json({
+      msg: "count able to delete this doto",
+    });
+  }
+});
+
 app.listen(port, () => {
   console.log(`the app is running on ${port}`);
 });
