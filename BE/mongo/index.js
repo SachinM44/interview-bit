@@ -122,22 +122,31 @@ app.delete("/todos/:id", async (req, res) => {
     });
   }
 });
+app.get("/todos", async (req, res) => {
+  const { completed } = req.params;
+
+  try {
+    const allTodos = await Todo.find({ completed: true }); //now i got all todos ,
+    res.status(200).json({
+      msg: "here is the valid todos",
+      data: allTodos,
+    });
+  } catch (err) {
+    res.status(500).json({
+      msg: "somthing went wrong",
+    });
+  }
+});
 
 app.listen(port, () => {
   console.log(`the app is running on ${port}`);
 });
 
-// Practice Question 3: Todo API (CRUD)
-// Build this:
+// Practice Question 4: Todo with Filtering
+// Add to previous project:
 
-// Setup MongoDB (local or Atlas)
-// Create Todo model: {title, description, completed, createdAt}
-// Implement:
+// GET /todos?completed=true - Filter by completion status
+// GET /todos?search=keyword - Search in title/description
+// Add pagination: GET /todos?page=1&limit=10
 
-// POST /todos - Create todo-done
-// GET /todos - Get all todos
-// GET /todos/:id - Get single todo
-// PUT /todos/:id - Update todo
-// DELETE /todos/:id - Delete todo
-
-// What you'll learn: MongoDB connection, Mongoose schemas, CRUD operations
+// What you'll learn: Query parameters, MongoDB queries, pagination

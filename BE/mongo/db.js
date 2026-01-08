@@ -24,17 +24,3 @@ module.exports = {
   Todo
 };
 
-// Practice Question 3: Todo API (CRUD)
-// Build this:
-
-// Setup MongoDB (local or Atlas)
-// Create Todo model: {title, description, completed, createdAt}
-// Implement:
-
-// POST /todos - Create todo
-// GET /todos - Get all todos
-// GET /todos/:id - Get single todo
-// PUT /todos/:id - Update todo
-// DELETE /todos/:id - Delete todo
-
-// What you'll learn: MongoDB connection, Mongoose schemas, CRUD operations
