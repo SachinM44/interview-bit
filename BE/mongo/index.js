@@ -122,18 +122,28 @@ app.delete("/todos/:id", async (req, res) => {
     });
   }
 });
-app.get("/todos", async (req, res) => {
-  const { completed } = req.params;
 
+///// GET /todos?completed=true - Filter by completion status
+
+app.get("/todos", async (req, res) => {
+  const { completed } = req.query; ///notice here im using query, not the params
+  /// then buid the query so does the check in the db
+
+  let query = [];
+
+  if (completed !== undefined) {
+    query.completed = completed === true;
+  }
   try {
-    const allTodos = await Todo.find({ completed: true }); //now i got all todos ,
+    const todo = await Todo.find(query);
     res.status(200).json({
-      msg: "here is the valid todos",
-      data: allTodos,
+      msg: "todo fetched successfully",
+      data: todo,
     });
   } catch (err) {
     res.status(500).json({
-      msg: "somthing went wrong",
+      msg: "somthing went wrong ",
+      err
     });
   }
 });
