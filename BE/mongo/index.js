@@ -1,6 +1,8 @@
 const express = require("express");
 const { Todo, User } = require("./db");
-
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../../mongodb/config");
+const { use } = require("react");
 const app = express();
 app.use(express.json());
 const port = 3000;
@@ -12,36 +14,59 @@ app.get("/health", (req, res) => {
 
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
-  console.log(name, email, password);
+  if (!email || !name || !password) {
+    return res.json({
+      msg: "plz enter all nessary field",
+      success: false,
+    });
+  }
 
-  const existingUser = await User.findOne({email});
-  console.log(existingUser)
+  const existingUser = await User.findOne({
+    email: email.toLowerCase(),
+  });
   if (existingUser) {
-    return res.status(500).json({
+    return res.status(409).json({
       msg: "user with this email is already exist",
     });
   }
 
-  const registeredDate = await User.create({ name, email, password });
-
-  res.status(200).json({
+  const user = await User.create({ name, email, password });
+  const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET);
+  res.status(201).json({
     msg: "user created successfully",
-    data: registeredDate,
+    data: {
+      id: user._id,
+      email: email,
+      name: name,
+      role: user.role,
+    },
+    token,
   });
 });
 
 app.get("/login", async (req, res) => {
-  const { email, password } = req.header;
-  const existingUser = await User.find(email);
-  if (!existingUser) {
-    return res.status(404).json({
-      msg: "user with this email doesnt exist",
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(409).json({
+      success: false,
+      msg: "please enter all the nessary fileds",
     });
   }
+  try {
+    const user = await User.findOne({ email });///becouse the password is compared 
+  } catch (err) {
+    res.status(404).json({
+      msg: "user with this email doesnt exist plz register",
+    });
 
+    const token = await jwt.sign({ userId: user._id }, JWT_SECRET);
 
-
-
+    res.status(200).json({
+      msg: "user found",
+      data: token,
+    });
+  }
 });
 
 app.post("/todos", async (req, res) => {

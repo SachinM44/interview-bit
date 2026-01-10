@@ -10,12 +10,12 @@ mongoose
 const userSchema = new mongoose.Schema(
   {
     name: {
-      require: true,
+      required: true,
       type: String,
       trim: true,
     },
     email: {
-      require: true,
+      required: true,
       type: String,
       trim: true,
     },
@@ -24,6 +24,13 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
       select: false,
+    },
+    role: {
+      type: String,
+      enum: {
+        values: ["user", "admin"],
+      },
+      default: "user",
     },
   },
   {
@@ -47,17 +54,19 @@ const Todo = mongoose.model("Todo", TodoSchema);
 
 // Hash password with bcrypt, save user
 
-userSchema.pre("save", async () => {
+userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
-    console.log('1',this.password)
     return next();
   }
   this.password = await bcrypt.hash(this.password, 10);
-  console.log('2',this.password)
+  console.log("2", this.password);
+
+  ///first has the passwordd
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
-////then compare the password
-userSchema.method.comparePassword = async (enteredPassword) => {
+userSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
