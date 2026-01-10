@@ -53,18 +53,23 @@ app.get("/login", async (req, res) => {
       msg: "please enter all the nessary fileds",
     });
   }
+
   try {
-    const user = await User.findOne({ email });///becouse the password is compared 
-  } catch (err) {
-    res.status(404).json({
-      msg: "user with this email doesnt exist plz register",
-    });
-
+    const user = await User.findOne({ email });
     const token = await jwt.sign({ userId: user._id }, JWT_SECRET);
-
-    res.status(200).json({
-      msg: "user found",
-      data: token,
+    res.status(201).json({
+      msg: "i found you ",
+      success: true,
+      data: {
+        name: user.name,
+        email: user.email,
+      },
+      token,
+    });
+  } catch (err) {
+    res.status(409).json({
+      success: false,
+      msg: "user with this email doesnt exist",
     });
   }
 });
