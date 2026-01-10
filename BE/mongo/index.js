@@ -1,5 +1,5 @@
 const express = require("express");
-const { Todo } = require("./db");
+const { Todo, User } = require("./db");
 
 const app = express();
 app.use(express.json());
@@ -7,6 +7,41 @@ const port = 3000;
 
 app.get("/health", (req, res) => {
   res.send("server is running properly");
+});
+/////login and/ and register
+
+app.post("/register", async (req, res) => {
+  const { name, email, password } = req.body;
+  console.log(name, email, password);
+
+  const existingUser = await User.findOne({email});
+  console.log(existingUser)
+  if (existingUser) {
+    return res.status(500).json({
+      msg: "user with this email is already exist",
+    });
+  }
+
+  const registeredDate = await User.create({ name, email, password });
+
+  res.status(200).json({
+    msg: "user created successfully",
+    data: registeredDate,
+  });
+});
+
+app.get("/login", async (req, res) => {
+  const { email, password } = req.header;
+  const existingUser = await User.find(email);
+  if (!existingUser) {
+    return res.status(404).json({
+      msg: "user with this email doesnt exist",
+    });
+  }
+
+
+
+
 });
 
 app.post("/todos", async (req, res) => {
@@ -165,11 +200,13 @@ app.listen(port, () => {
   console.log(`the app is running on ${port}`);
 });
 
-// Practice Question 4: Todo with Filtering
-// Add to previous project:
+// DAY 3: Authentication & Authorization
+// Practice Question 5: User Registration & Login
+// Build this:
 
-// GET /todos?completed=true - Filter by completion status
-// GET /todos?search=keyword - Search in title/description
-// Add pagination: GET /todos?page=1&limit=10
+// User model: {name, email, password, role}
+// POST /auth/register - Hash password with bcrypt, save user
+// POST /auth/login - Verify password, return JWT token
+// GET /auth/me - Protected route, returns current user info
 
-// What you'll learn: Query parameters, MongoDB queries, pagination
+// What you'll learn: Password hashing, JWT tokens, protected routes
