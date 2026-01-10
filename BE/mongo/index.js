@@ -126,16 +126,29 @@ app.delete("/todos/:id", async (req, res) => {
 ///// GET /todos?completed=true - Filter by completion status
 
 app.get("/todos", async (req, res) => {
-  const { completed } = req.query; ///notice here im using query, not the params
+  /// now lets add pagination and limit as well
+  const { completed, search, page = 1, limit = 10 } = req.query; ///notice here im using query, not the params
   /// then buid the query so does the check in the db
 
-  let query = [];
+  console.log("Query params:", { completed, search, page, limit });
+
+  let query = {};
 
   if (completed !== undefined) {
-    query.completed = completed === true;
+    query.completed = completed === "true";
   }
+
+  if (search) {
+    query.$or = [
+      { title: { $regex: search, $options: "i" } },
+      { description: { $regex: search, $options: "i" } },
+    ];
+  }
+
   try {
-    const todo = await Todo.find(query);
+    const todo = await Todo.find(query)
+      .skip((page - 1) * Number(limit))
+      .limit(Number(limit));
     res.status(200).json({
       msg: "todo fetched successfully",
       data: todo,
@@ -143,7 +156,7 @@ app.get("/todos", async (req, res) => {
   } catch (err) {
     res.status(500).json({
       msg: "somthing went wrong ",
-      err
+      err,
     });
   }
 });
