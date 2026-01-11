@@ -2,8 +2,9 @@ const express = require("express");
 const { Todo, User } = require("./db");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../../mongodb/config");
-const { use } = require("react");
 const app = express();
+const bcrypt = require("bcryptjs");
+const { authMiddleware } = require("./utils/auth");
 app.use(express.json());
 const port = 3000;
 
@@ -30,7 +31,10 @@ app.post("/register", async (req, res) => {
     });
   }
 
-  const user = await User.create({ name, email, password });
+  const salt =await bcrypt.genSalt(10);
+
+  const hashedPassowrd = await bcrypt.hash(password, salt);
+  const user = await User.create({ name, email, password: hashedPassowrd });
   const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET);
   res.status(201).json({
     msg: "user created successfully",
@@ -39,44 +43,77 @@ app.post("/register", async (req, res) => {
       email: email,
       name: name,
       role: user.role,
+      password: user.password,
     },
     token,
   });
 });
 
-app.get("/login", async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(409).json({
-      success: false,
-      msg: "please enter all the nessary fileds",
-    });
-  }
-
+app.post("/login", async (req, res) => {
   try {
-    const user = await User.findOne({ email });
-    const token = await jwt.sign({ userId: user._id }, JWT_SECRET);
-    res.status(201).json({
-      msg: "i found you ",
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        msg: "Please enter all necessary fields",
+      });
+    }
+
+    const user = await User.findOne({
+      email: email.toLowerCase(),
+    }).select("+password");
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        msg: "Email or password is wrong",
+      });
+    }
+
+
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(401).json({
+        success: false,
+        msg: "Email or password is wrong",
+      });
+    }
+
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET);
+
+    res.status(200).json({
       success: true,
+      msg: "Login successful",
       data: {
-        name: user.name,
-        email: user.email,
+        name: req.name,
+        email: req.email,
+        role: req.role,
       },
       token,
     });
   } catch (err) {
-    res.status(409).json({
+    console.error(err);
+    res.status(500).json({
       success: false,
-      msg: "user with this email doesnt exist",
+      msg: "Internal server error",
     });
   }
 });
 
-app.post("/todos", async (req, res) => {
+app.get("/auth/me", authMiddleware, async (req, res) => {
+  try {
+    res.status(200).json({
+      msg: "user data fetched successfully",
+      data: {
+        name: user.name,
+      },
+    });
+  } catch (err) {}
+});
+
+app.post("/todos", authMiddleware, async (req, res) => {
   const { title, description, completed } = req.body;
-  console.log(title, description, completed);
 
   if (!title || !description || typeof completed !== "boolean") {
     return res.status(400).json({
@@ -130,9 +167,7 @@ app.get("/todos/:id", async (req, res) => {
 
 app.put("/todos/:id", async (req, res) => {
   const { id } = req.params;
-  console.log("hitting the server with this payload", id);
   const { title, description, completed } = req.body;
-  console.log(title, description, completed);
 
   const todo = await Todo.findById(id);
   if (!todo) {
@@ -195,7 +230,6 @@ app.get("/todos", async (req, res) => {
   const { completed, search, page = 1, limit = 10 } = req.query; ///notice here im using query, not the params
   /// then buid the query so does the check in the db
 
-  console.log("Query params:", { completed, search, page, limit });
 
   let query = {};
 

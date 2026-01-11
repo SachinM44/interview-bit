@@ -1,4 +1,5 @@
 const { default: mongoose } = require("mongoose");
+const bcrypt = require("bcryptjs");
 mongoose
   .connect(
     "mongodb+srv://bren13850:9VrawcpUl1YvAStF@cluster0.ozg5hhn.mongodb.net/"
@@ -51,24 +52,6 @@ const TodoSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 const Todo = mongoose.model("Todo", TodoSchema);
-
-// Hash password with bcrypt, save user
-
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    return next();
-  }
-  this.password = await bcrypt.hash(this.password, 10);
-  console.log("2", this.password);
-
-  ///first has the passwordd
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-});
-
-userSchema.methods.comparePassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
-};
 
 module.exports = {
   Todo,
