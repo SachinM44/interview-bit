@@ -25,7 +25,7 @@ const authMiddleware = async (req, res, next) => {
     next();
   } catch (error) {
     if (error.name == "JsonWebTokenError") {
-      return res.json(401).json({
+      return res.status(401).json({
         msg: "invalid token",
       });
     }
@@ -45,13 +45,15 @@ const authMiddleware = async (req, res, next) => {
 const authorize = (...roles) => {
   return (req, res, next) => {
     if (!req.user) {
+      console.log("hey there");
       return res.status(401).json({
         msg: "Authentication required",
       });
     }
 
-    if (!roles.includes(req.user.roles)) {
-      res.status(403).json({
+    if (!roles.includes(req.user.role)) {
+      console.log(req.user.role)
+      return res.status(403).json({
         msg: "you are not supposed access this endpoint",
       });
     }
