@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../../mongodb/config");
 const app = express();
 const bcrypt = require("bcryptjs");
-const { authMiddleware } = require("./utils/auth");
+const { authMiddleware } = require("./middleware/auth");
 app.use(express.json());
 const port = 3000;
 
