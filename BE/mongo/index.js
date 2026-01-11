@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../../mongodb/config");
 const app = express();
 const bcrypt = require("bcryptjs");
-const { authMiddleware } = require("./middleware/auth");
+const { authMiddleware, authorize } = require("./middleware/auth");
 app.use(express.json());
 const port = 3000;
 
@@ -14,8 +14,8 @@ app.get("/health", (req, res) => {
 /////login and/ and register
 
 app.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
-  if (!email || !name || !password) {
+  const { name, email, role, password } = req.body;
+  if (!email || !name || !password || !role) {
     return res.json({
       msg: "plz enter all nessary field",
       success: false,
@@ -34,7 +34,12 @@ app.post("/register", async (req, res) => {
   const salt = await bcrypt.genSalt(10);
 
   const hashedPassowrd = await bcrypt.hash(password, salt);
-  const user = await User.create({ name, email, password: hashedPassowrd });
+  const user = await User.create({
+    name,
+    email,
+    role,
+    password: hashedPassowrd,
+  });
   const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET);
   res.status(201).json({
     msg: "user created successfully",
@@ -119,7 +124,7 @@ app.get("/auth/me", authMiddleware, async (req, res) => {
   }
 });
 
-app.post("/todos", authMiddleware, async (req, res) => {
+app.post("/todos", authMiddleware, authorize('admin'), async (req, res) => {
   const { title, description, completed } = req.body;
 
   if (!title || !description || typeof completed !== "boolean") {

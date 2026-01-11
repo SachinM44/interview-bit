@@ -12,7 +12,7 @@ const authMiddleware = async (req, res, next) => {
     }
 
     const token = authHeader.replace("Bearer ", "");
-    const decoded = jwt.decode(token, JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
     const user = await User.findById(decoded.userId);
 
     if (!user) {
@@ -42,6 +42,24 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
+const authorize = (...roles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({
+        msg: "Authentication required",
+      });
+    }
+
+    if (!roles.includes(req.user.roles)) {
+      res.status(403).json({
+        msg: "you are not supposed access this endpoint",
+      });
+    }
+    next();
+  };
+};
+
 module.exports = {
   authMiddleware,
+  authorize,
 };
