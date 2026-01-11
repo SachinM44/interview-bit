@@ -31,7 +31,7 @@ app.post("/register", async (req, res) => {
     });
   }
 
-  const salt =await bcrypt.genSalt(10);
+  const salt = await bcrypt.genSalt(10);
 
   const hashedPassowrd = await bcrypt.hash(password, salt);
   const user = await User.create({ name, email, password: hashedPassowrd });
@@ -71,7 +71,6 @@ app.post("/login", async (req, res) => {
       });
     }
 
-
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
       return res.status(401).json({
@@ -102,14 +101,22 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/auth/me", authMiddleware, async (req, res) => {
+  console.log("server is hitting this enpoint");
   try {
     res.status(200).json({
       msg: "user data fetched successfully",
       data: {
-        name: user.name,
+        name: req.user.name,
+        email: req.user.email,
+        role: req.user.role,
+        password: req.user.password,
       },
     });
-  } catch (err) {}
+  } catch (err) {
+    res.status(409).json({
+      msg: "something went wrong",
+    });
+  }
 });
 
 app.post("/todos", authMiddleware, async (req, res) => {
@@ -229,7 +236,6 @@ app.get("/todos", async (req, res) => {
   /// now lets add pagination and limit as well
   const { completed, search, page = 1, limit = 10 } = req.query; ///notice here im using query, not the params
   /// then buid the query so does the check in the db
-
 
   let query = {};
 

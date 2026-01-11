@@ -4,8 +4,8 @@ const { User } = require("../db");
 
 const authMiddleware = async (req, res, next) => {
   try {
-    const { authHeader } = req.header.authorization;
-    if (!authHeader || authHeader.startsWith("Bearer ")) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
         msg: "no toekn provided plz login again",
       });
