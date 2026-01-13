@@ -26,7 +26,7 @@ app.post("/register", async (req, res) => {
     email: email.toLowerCase(),
   });
   if (existingUser) {
-    return res.status(409).json({
+    return res.status(401).json({
       msg: "user with this email is already exist",
     });
   }
@@ -96,6 +96,7 @@ app.post("/login", async (req, res) => {
       },
       token,
     });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({

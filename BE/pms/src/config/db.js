@@ -2,8 +2,7 @@ const { default: mongoose } = require("mongoose");
 try {
   mongoose
     .connect(
-      process.env.MONGO_URL
-      //  "mongodb+srv://bren13850:9VrawcpUl1YvAStF@cluster0.ozg5hhn.mongodb.net/"
+      "mongodb+srv://bren13850:9VrawcpUl1YvAStF@cluster0.ozg5hhn.mongodb.net/"
     )
     .then(() => {
       console.log("mongo connected");
@@ -11,3 +10,5 @@ try {
 } catch (err) {
   console.log("somthing went wrong ");
 }
+
+export default JWT_SECRET = my_secret;

@@ -43,11 +43,21 @@ const TodoSchema = new mongoose.Schema({
   title: String,
   description: String,
   completed: Boolean,
+  associtedUser: mongoose.Schema.ObjectId,
+  required: true,
+  ref: "User",
   createdAt: {
     type: Date,
     default: Date.now(),
   },
 });
+
+///some indexing here
+
+userSchema.index({ email: 1 });
+////compound indexing
+
+TodoSchema.index({ title: 1, completed: "true" });
 
 const User = mongoose.model("User", userSchema);
 

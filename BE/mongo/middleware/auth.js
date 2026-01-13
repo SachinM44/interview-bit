@@ -6,7 +6,7 @@ const authMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({
+      return res.status(400).json({
         msg: "no toekn provided plz login again",
       });
     }
@@ -53,7 +53,7 @@ const authorize = (...roles) => {
 
     if (!roles.includes(req.user.role)) {
       console.log(req.user.role)
-      return res.status(403).json({
+      return res.status(409).json({
         msg: "you are not supposed access this endpoint",
       });
     }
