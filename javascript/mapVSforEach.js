@@ -22,7 +22,6 @@ b=a.age;  //here since the {obj} is non-primitive dt , it stores the referenc no
 b.age=100 // // here when u modify it both will will become {age:100}
 console.log(a.age)  // so here for the obj is will refer to that aboject so it will be passed by reference
 
-
 // //the correct ans 
 // What happens:
 
