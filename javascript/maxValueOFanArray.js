@@ -33,5 +33,6 @@ var x=10;
 }
 let a=x;
 {
-    
+    let a=1222;
 }
+console.log(a)
