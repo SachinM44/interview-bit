@@ -4,7 +4,6 @@ import { useEffect, useState, useTransition } from "react"
 
 export const useFetch = (url: string) => {
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState();
     const [data, setDate] = useState();
 
     useEffect(() => {
