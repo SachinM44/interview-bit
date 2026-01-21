@@ -19,7 +19,7 @@ const handleSeach=debounce(()=>{
     console.log('api call ')
 },5000)
 
-console.log(handleSeach())
+handleSeach()
 
 
 ///oneword user started typed , released typing(event done) after 1 second it will it will run 
