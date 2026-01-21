@@ -1,15 +1,11 @@
-//let me write once again
-const countTheName = (string) => {
-  let result = [];
-  for (let i = 0; i < string.length; i++) {
-    let char = string[i];
-    if (result[char]) {
-      result[char]++;
-    } else {
-      result[char] = 1;
+///cyrring in the js
+
+function add(a){
+    return function(b){
+        return function(c){
+            return a+b+c
+        }
     }
-  }
-  return result;
-};
-let string='dhdhhhhdhhd'
-console.log(countTheName(string))
+}
+const result=add(3)(3)(3)
+console.log(result)
