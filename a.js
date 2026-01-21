@@ -8,3 +8,5 @@ const info={ar1:'laura'};
 
 cook.call(info, 'dhd', 'dhhdh')
 
+///where is apply does the same /// meand it pass the argument one by one but in teh form of array
+cook.apply(info , ['ndnd','hdhhd', 'dndndn'])
