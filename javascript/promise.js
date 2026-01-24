@@ -156,169 +156,169 @@ const p7 = Promise.resolve("p7 done");
 const p8 = Promise.resolve("p8 done");
 ```
 
-Now let’s explain each behavior:
+// Now let’s explain each behavior:
 
----
+// ---
 
-# ⭐ 1. **Promise.allSettled()**
+// # ⭐ 1. **Promise.allSettled()**
 
-### ✔ It never fails
+// ### ✔ It never fails
 
-### ✔ It waits for ALL promises (success + fail)
+// ### ✔ It waits for ALL promises (success + fail)
 
-### Output format:
+// ### Output format:
 
-* `{ status: "fulfilled", value: ... }`
-* `{ status: "rejected", reason: ... }`
+// * `{ status: "fulfilled", value: ... }`
+// * `{ status: "rejected", reason: ... }`
 
-### Example:
+// ### Example:
 
-```js
-Promise.allSettled([p1,p2,p3,p4,p5,p6,p7,p8])
-  .then(results => console.log(results));
-```
+// ```js
+// Promise.allSettled([p1,p2,p3,p4,p5,p6,p7,p8])
+//   .then(results => console.log(results));
+// ```
 
-### Output:
+// ### Output:
 
-```
-[
-  { status: "fulfilled", value: "p1 done" },
-  { status: "fulfilled", value: "p2 done" },
-  { status: "fulfilled", value: "p3 done" },
-  { status: "fulfilled", value: "p4 done" },
-  { status: "rejected",  reason: "p5 failed ❌" },
-  { status: "fulfilled", value: "p6 done" },
-  { status: "fulfilled", value: "p7 done" },
-  { status: "fulfilled", value: "p8 done" }
-]
-```
+// ```
+// [
+//   { status: "fulfilled", value: "p1 done" },
+//   { status: "fulfilled", value: "p2 done" },
+//   { status: "fulfilled", value: "p3 done" },
+//   { status: "fulfilled", value: "p4 done" },
+//   { status: "rejected",  reason: "p5 failed ❌" },
+//   { status: "fulfilled", value: "p6 done" },
+//   { status: "fulfilled", value: "p7 done" },
+//   { status: "fulfilled", value: "p8 done" }
+// ]
+// ```
 
-### Why this is useful?
+// ### Why this is useful?
 
-You want **all results**, even if some failed.
-Perfect for:
+// You want **all results**, even if some failed.
+// Perfect for:
 
-* Bulk API requests
-* Batch image uploads
-* Background jobs
+// * Bulk API requests
+// * Batch image uploads
+// * Background jobs
 
----
+// ---
 
-# ⭐ 2. **Promise.any()**
+// # ⭐ 2. **Promise.any()**
 
-### ✔ Returns the **first successful** promise
+// ### ✔ Returns the **first successful** promise
 
-### ✔ Ignores all failures
+// ### ✔ Ignores all failures
 
-### ❌ Rejects ONLY if *all* fail
+// ### ❌ Rejects ONLY if *all* fail
 
-### Example:
+// ### Example:
 
-```js
-Promise.any([p1,p2,p3,p4,p5,p6,p7,p8])
-  .then(console.log)
-  .catch(console.log);
-```
+// ```js
+// Promise.any([p1,p2,p3,p4,p5,p6,p7,p8])
+//   .then(console.log)
+//   .catch(console.log);
+// ```
 
-### Output:
+// ### Output:
 
-```
-p1 done
-```
+// ```
+// p1 done
+// ```
 
-(because p1 is first to resolve)
+// (because p1 is first to resolve)
 
-### If ONLY p5 existed:
+// ### If ONLY p5 existed:
 
-```js
-Promise.any([Promise.reject("p5 failed ❌")])
-  .then(console.log)
-  .catch(console.log);
-```
+// ```js
+// Promise.any([Promise.reject("p5 failed ❌")])
+//   .then(console.log)
+//   .catch(console.log);
+// ```
 
-You get an `AggregateError`:
+// You get an `AggregateError`:
 
-```
-AggregateError: All promises were rejected
-```
+// ```
+// AggregateError: All promises were rejected
+// ```
 
-Useful for:
+// Useful for:
 
-* "Give me the first working server response"
-* "Try multiple sources, use whichever responds first"
-* "Race multiple fallbacks"
+// * "Give me the first working server response"
+// * "Try multiple sources, use whichever responds first"
+// * "Race multiple fallbacks"
 
----
+// ---
 
-# ⭐ 3. **Promise.race()**
+// # ⭐ 3. **Promise.race()**
 
-### ✔ Returns **first promise to settle**
+// ### ✔ Returns **first promise to settle**
 
-(settle = resolve OR reject)
+// (settle = resolve OR reject)
 
-### ❗ That means the race can end in success or failure
+// ### ❗ That means the race can end in success or failure
 
-Example:
+// Example:
 
-```js
-Promise.race([p1,p2,p3,p4,p5,p6,p7,p8])
-  .then(console.log)
-  .catch(console.log);
-```
+// ```js
+// Promise.race([p1,p2,p3,p4,p5,p6,p7,p8])
+//   .then(console.log)
+//   .catch(console.log);
+// ```
 
-### Output:
+// ### Output:
 
-```
-p1 done
-```
+// ```
+// p1 done
+// ```
 
-Because p1 resolves first.
+// Because p1 resolves first.
 
-But imagine this:
+// But imagine this:
 
-```js
-const slowResolve = new Promise(res =>
-  setTimeout(() => res("resolved"), 2000)
-);
+// ```js
+// const slowResolve = new Promise(res =>
+//   setTimeout(() => res("resolved"), 2000)
+// );
 
-const fastReject = new Promise((res, rej) =>
-  setTimeout(() => rej("rejected first"), 100)
-);
+// const fastReject = new Promise((res, rej) =>
+//   setTimeout(() => rej("rejected first"), 100)
+// );
 
-Promise.race([slowResolve, fastReject])
-  .then(console.log)
-  .catch(console.log);
-```
+// Promise.race([slowResolve, fastReject])
+//   .then(console.log)
+//   .catch(console.log);
+// ```
 
-### Output:
+// ### Output:
 
-```
-rejected first
-```
+// ```
+// rejected first
+// ```
 
-Useful for:
+// Useful for:
 
-* Timeout promises
-* “Whichever API responds first”
-* Abort slow operations
+// * Timeout promises
+// * “Whichever API responds first”
+// * Abort slow operations
 
----
+// ---
 
-# 🎯 Summary Table
+// # 🎯 Summary Table
 
-| Feature            | Promise.all         | Promise.allSettled | Promise.any             | Promise.race                |
-| ------------------ | ------------------- | ------------------ | ----------------------- | --------------------------- |
-| Rejects if 1 fails | ✅ Yes               | ❌ No               | ❌ No (only if ALL fail) | ⚠️ Yes (if first is reject) |
-| Returns values     | Only if all success | All results        | First success           | First to finish             |
-| Use case           | All must succeed    | Need all results   | First good result       | Fastest result (good/bad)   |
+// | Feature            | Promise.all         | Promise.allSettled | Promise.any             | Promise.race                |
+// | ------------------ | ------------------- | ------------------ | ----------------------- | --------------------------- |
+// | Rejects if 1 fails | ✅ Yes               | ❌ No               | ❌ No (only if ALL fail) | ⚠️ Yes (if first is reject) |
+// | Returns values     | Only if all success | All results        | First success           | First to finish             |
+// | Use case           | All must succeed    | Need all results   | First good result       | Fastest result (good/bad)   |
 
----
+// ---
 
-# If you want, I can also show:
+// # If you want, I can also show:
 
-🔥 Side-by-side comparison with timeline diagrams
-🔥 Real world use cases for each (API calls, retries, UI loaders)
-🔥 How these behave with **async/await** instead of .then/.catch
+// 🔥 Side-by-side comparison with timeline diagrams
+// 🔥 Real world use cases for each (API calls, retries, UI loaders)
+// 🔥 How these behave with **async/await** instead of .then/.catch
 
-Just tell me!
+// Just tell me!
 

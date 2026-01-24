@@ -11,7 +11,7 @@ const UserSchema= new mongoose.Schema({
 })
 const TodoSchema=new mongoose.Schema({
     UserId: mongoose.Schema.Types.ObjectId,
-   // ref:'User',
+    ref:'User',
     title: String,
     done :Boolean
     

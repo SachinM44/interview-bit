@@ -1,40 +1,34 @@
-
-
-let abc=100
-if(function xyz(){
-}){
-    abc= abc + typeof(xyz)
+let abc = 100;
+if (function xyz() {}) {
+  abc = abc + typeof xyz;
 }
 
-console.log(abc)
+console.log(abc);
 //what will be the output , nd why ?
 // 100-function
-//reffernce error, why becouse the function is not the number so it will throught an error (abc=ac-typeof(xyz)) 
-//but if u do like this abc= abc + typeof(xyz) it will give 100undifined , why becouse the "=" will concatinate that , and since the function is undefuned 
+//reffernce error, why becouse the function is not the number so it will throught an error (abc=ac-typeof(xyz))
+//but if u do like this abc= abc + typeof(xyz) it will give 100undifined , why becouse the "=" will concatinate that , and since the function is undefuned
 
-function amx(){
-}
+function amx() {}
 
-console.log(typeof(amx))
-//now it will run becousse it not in : " The name of a function expression is only accessible inside the function body itself" 
+console.log(typeof amx);
+//now it will run becousse it not in : " The name of a function expression is only accessible inside the function body itself"
 
-let obj={
-    name:'sachin',
-    func:function(){
-        console.log(this.name)
-    }
-}
+let obj = {
+  name: "sachin",
+  func: function () {
+    console.log(this.name);
+  },
+};
 
+const c = obj.func; // becouse here u the copying only the function not the object referancr
 
-   const c=obj.func// becouse here u the copying only the function not the object referancr
+obj.func(); // but here its referencing correct to that name
 
-   obj.func()// but here its referencing correct to that name 
+c(); //so it will be undifined here
 
-   c() //so it will be undifined here 
-
-
-   //output :sachin
-            //undefined
+//output :sachin
+//undefined
 //             This is another **very important JS concept** — it’s all about **`this` binding**, not the function itself.
 
 // Let’s go step-by-step and correct the mental model.
@@ -221,4 +215,3 @@ let obj={
 // * Why React handlers lose `this`
 
 // Just tell me 👍
-
