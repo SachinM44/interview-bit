@@ -101,8 +101,6 @@
 // }
 
 // const result=console.log(flattenArray(array,res))
-
-
 console.log([NaN].indexOf(NaN)); // -1
 switch (NaN) {
   case NaN:
