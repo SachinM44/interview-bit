@@ -106,5 +106,5 @@
 console.log([NaN].indexOf(NaN)); // -1
 switch (NaN) {
   case NaN:
-    console.log("Surprise"); // Nothing is logged
+    console.log("Surprise, nothing logged "); // Nothing is logged
 }
