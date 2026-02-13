@@ -1,5 +1,3 @@
-// === LinkedIn Auto-Load + Auto-Click "Connect" in search results (2025–2026 updated) ===
-// Paste into Chrome DevTools console on a People search results page
 
 (async function() {
 
