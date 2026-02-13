@@ -61,7 +61,6 @@
     console.log(`\nLoading finished after ${loadAttempts} attempts. Now looking for Connect buttons...\n`);
 
     while (connectCount < MAX_CONNECT_CLICKS) {
-        // More robust selector for Connect buttons in search results
         const connectBtns = [...document.querySelectorAll('button')]
             .filter(el =>
                 el.textContent.trim() === 'Connect' &&
