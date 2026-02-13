@@ -85,7 +85,7 @@
         btn.click();
         connectCount++;
 
-        await delay(800); // wait for modal/popup
+        await delay(800); 
 
         let send = [...document.querySelectorAll('button')]
             .find(el => 
