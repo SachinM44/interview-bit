@@ -60,7 +60,6 @@
 
     console.log(`\nLoading finished after ${loadAttempts} attempts. Now looking for Connect buttons...\n`);
 
-    // ─── Phase 2: Click Connect buttons ──────────────────────────────────────────
     while (connectCount < MAX_CONNECT_CLICKS) {
         // More robust selector for Connect buttons in search results
         const connectBtns = [...document.querySelectorAll('button')]
