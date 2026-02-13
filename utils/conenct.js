@@ -24,7 +24,6 @@
     console.log("Starting to load more profiles...");
 
     while (loadAttempts < MAX_LOAD_ATTEMPTS) {
-        // Try classic "Show more results" button (text can vary slightly)
         let loadMore = [...document.querySelectorAll('button')]
             .find(el =>
                 el.textContent.toLowerCase().includes('show more') ||
