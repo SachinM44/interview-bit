@@ -100,8 +100,6 @@
             console.log(`✅ Sent connection #${sentCount} / click #${connectCount}`);
             await delay(WAIT_AFTER_MODAL + Math.random() * 900);
         } else {
-            // No Send → probably "Added" already or modal closed automatically
-            // Try to close any modal
             let close = document.querySelector('button[aria-label*="Dismiss"], button.artdeco-modal__dismiss, button[aria-label*="Close"]');
             if (close) close.click();
             console.log(`Modal closed (no Send needed or already connected)`);
