@@ -7,9 +7,6 @@
 
     const delay = ms => new Promise(r => setTimeout(r, ms));
 
-    // ────────────────────────────────────────────────
-    //   CONFIG – tune these values
-    // ────────────────────────────────────────────────
     const MAX_CONNECT_CLICKS   = 10;         // safety – don't go crazy
     const MAX_LOAD_ATTEMPTS    = 15;         // how many times to try loading more
     const WAIT_BETWEEN_CLICKS  = 2800;       // 2.8–4.5 s → mimic human
