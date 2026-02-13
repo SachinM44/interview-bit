@@ -47,7 +47,6 @@
         window.scrollTo(0, document.body.scrollHeight - 1200);
         await delay(SCROLL_PAUSE);
 
-        // Check if we reached the end (very rough heuristic)
         let oldHeight = document.body.scrollHeight;
         await delay(900);
         if (document.body.scrollHeight === oldHeight) {
