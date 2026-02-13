@@ -87,7 +87,6 @@
 
         await delay(800); // wait for modal/popup
 
-        // Try to press Send
         let send = [...document.querySelectorAll('button')]
             .find(el => 
                 el.textContent.includes('Send') && 
