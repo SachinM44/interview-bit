@@ -107,7 +107,7 @@
             console.log(`Modal closed (no Send needed or already connected)`);
         }
 
-        await delay(WAIT_BETWEEN_CLICKS + Math.random() * 1200); // human-like variation
+        await delay(WAIT_BETWEEN_CLICKS + Math.random() * 1200); 
     }
 
     console.log(`\nFinished.\nClicked Connect → ${connectCount} times\nProbably sent → ${sentCount} invites`);
