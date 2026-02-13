@@ -21,7 +21,6 @@
     let sentCount    = 0;
     let loadAttempts = 0;
 
-    // ─── Phase 1: Load more results until we can't ───────────────────────────────
     console.log("Starting to load more profiles...");
 
     while (loadAttempts < MAX_LOAD_ATTEMPTS) {
