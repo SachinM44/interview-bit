@@ -18,3 +18,6 @@ const TodoList=({todos, onDelete, onToggle})=>{
    />
    )
 }
+
+
+export default TodoList

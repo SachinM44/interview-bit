@@ -1,12 +1,41 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import TodoInput from './comonent/TodoInput';
+import TodoList from './comonent/Todolist';
+import { useState } from 'react';
 
 export default function App() {
+
+const [todos, setTodo]=useState([]); // so the list of todo is boing to be an array 
+
+
+const addTodo=(text)=>{
+setTodo([...todos, {id:Date.now(), text, completed:false}])
+}
+
+
+const toggleTodo=(id)=>{
+  setTodo(todos.map(todo=>
+    todo.id==id ? {...todo, completed: !todo.completed} : todo
+  ))
+}
+
+const deleteTodo=(id)=>{
+  setTodo(todos.filter(todo=>todo.id !==id))/// so if there is no id associated with that todo , it wont be there in that todo
+}
+
+
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+   <SafeAreaProvider>
+    
+   <TodoInput onAddTodo={addTodo}/>
+
+   <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo}/>
+
+
+   </SafeAreaProvider>
   );
 }
 
