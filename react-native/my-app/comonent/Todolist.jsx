@@ -4,12 +4,16 @@ import TodoItem from "./TodoItem"
 
 
 
-const TodoList=({todo})=>{
+const TodoList=({todos, onDelete, onToggle})=>{
    return(
    <FlatList
-   data={todo}
-   keyExtractor={(items)=>{
+   data={todos}
+   keyExtractor={item=>item.id.toString()}
+   renderItem={({items})=>{
     <TodoItem 
+     todo={items}
+     onDelete={onDelete}
+     onTogle={onToggle} />
    }}
    />
    )
