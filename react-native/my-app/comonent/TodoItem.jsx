@@ -23,3 +23,5 @@ const TodoItem=({todo, onTogle, onDelete})=>{
     )
 
 }
+
+export default TodoItem
