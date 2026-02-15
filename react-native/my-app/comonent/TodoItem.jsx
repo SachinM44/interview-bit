@@ -8,10 +8,16 @@ const TodoItem=({todo, onTogle, onDelete})=>{
     return(
 
         <View style={{flexDirection:'row', alignItems:'center', borderColor:'red', }}>
-/////first wee need the checklist that will cover the condtional redering 
-    <Pressable onPress={()=>ontoggle(todo.id)} style={{completed:textDecorationLine:'line-graph', color:'red'}}>
-        {todo.com}
+    <Pressable onPress={()=>ontoggle(todo.id)} style={{
+        textDecorationLine: todo.completed? 'line-through' : 'none',
+          color:'red'}}>
+        {todo.text}
     </Pressable>
+       
+    <Pressable onPress={()=>onDelete(todo.id)} >
+        <Text style={{color: 'red'}}>delete</Text>
+    </Pressable>
+
         </View>
 
     )
