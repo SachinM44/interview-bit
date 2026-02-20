@@ -16,6 +16,21 @@ const throttling=(fn, delay)=>{
 }
 
 
+
+const tort=(fn, ddel)=>{
+    let call=0;
+    return (...args)=>{
+      const now=Date.now()
+      if(lastCall-now>=ddel){
+        lastCall=now
+        fn(...args)
+      }
+    }
+}
+
+
+
+
 //// good way 
 
 const thottle=(fn, limit)=>{
@@ -37,3 +52,4 @@ const hnadleSColl=throttling(()=>{
 
 
 console.log(hnadleSColl())
+

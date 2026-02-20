@@ -6,7 +6,6 @@ const data = {
     stay : "blr"
 }
 
-const { use } = require("react");
 
 function fetchdata(){
     return new Promise((resolve , reject)=>{

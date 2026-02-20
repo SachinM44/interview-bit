@@ -35,3 +35,4 @@ const result=closure()
 console.log(result())
 
 console.log(result())
+

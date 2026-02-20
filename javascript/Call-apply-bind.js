@@ -16,3 +16,12 @@ cook.call(adam, ['rice', 'plat', 'chiken'])
 /// call - runs the function immidiatly ,  passing each argument separetly 
 // applay-where the apply do that same but it pass the argument in an array format 
 // bind- creates a new function with present this and argument which u can call later 
+
+
+const fn=(a1,a2, a3)=>{
+console.log(`${this.age} hello ${a1}, ${a2}`)
+}
+
+const man={age: 20}
+
+fn.call(adam, 33, 33)
