@@ -1,101 +1,124 @@
-
 (async function() {
-
     'use strict';
-
     const delay = ms => new Promise(r => setTimeout(r, ms));
 
-    const MAX_CONNECT_CLICKS   = 10;         // safety – don't go crazy
-    const MAX_LOAD_ATTEMPTS    = 15;         // how many times to try loading more
-    const WAIT_BETWEEN_CLICKS  = 2800;       // 2.8–4.5 s → mimic human
+    const MAX_CONNECTS         = 20;
+    const WAIT_BETWEEN_CLICKS  = 2800;
     const WAIT_AFTER_MODAL     = 1400;
-    const SCROLL_PAUSE         = 1200;       // ms after each scroll
-    // ────────────────────────────────────────────────
 
     let connectCount = 0;
     let sentCount    = 0;
-    let loadAttempts = 0;
 
-    console.log("Starting to load more profiles...");
+    console.log("🚀 Starting LinkedIn auto-connect script (max 20 requests)...\n");
 
-    while (loadAttempts < MAX_LOAD_ATTEMPTS) {
-        let loadMore = [...document.querySelectorAll('button')]
+    // Helper: find visible Connect buttons in current viewport
+    function getVisibleConnectBtns() {
+        return [...document.querySelectorAll('button')]
+            .filter(el => {
+                if (el.textContent.trim() !== 'Connect') return false;
+                if (el.disabled || el.offsetParent === null) return false;
+                if (el.closest('[class*="premium"], [class*="upsell"], [aria-label*="Premium"]')) return false;
+                const rect = el.getBoundingClientRect();
+                return rect.top >= 0 && rect.bottom <= window.innerHeight;
+            });
+    }
+
+    // Helper: find ANY connect button on page (even if below fold)
+    function getAllConnectBtns() {
+        return [...document.querySelectorAll('button')]
+            .filter(el => {
+                if (el.textContent.trim() !== 'Connect') return false;
+                if (el.disabled || el.offsetParent === null) return false;
+                if (el.closest('[class*="premium"], [class*="upsell"], [aria-label*="Premium"]')) return false;
+                return true;
+            });
+    }
+
+    // Helper: try clicking "Show more" / "Load more"
+    async function tryLoadMore() {
+        const loadMore = [...document.querySelectorAll('button')]
             .find(el =>
-                el.textContent.toLowerCase().includes('show more') ||
-                el.textContent.toLowerCase().includes('load more') ||
-                el.textContent.toLowerCase().includes('see more')
+                !el.disabled &&
+                el.offsetParent !== null &&
+                (el.textContent.toLowerCase().includes('show more') ||
+                 el.textContent.toLowerCase().includes('load more') ||
+                 el.textContent.toLowerCase().includes('see more'))
             );
-
-        if (loadMore && loadMore.offsetParent !== null && !loadMore.disabled) {
-            console.log(`Clicking "${loadMore.textContent.trim()}" button...`);
+        if (loadMore) {
+            console.log(`📄 Clicking "${loadMore.textContent.trim()}"...`);
             loadMore.scrollIntoView({ behavior: 'smooth', block: 'center' });
             await delay(400);
             loadMore.click();
-            loadAttempts++;
-            await delay(2200 + Math.random() * 1800); // 2.2–4 s
-            continue;
+            await delay(2500 + Math.random() * 1000);
+            return true;
         }
-
-        window.scrollTo(0, document.body.scrollHeight - 1200);
-        await delay(SCROLL_PAUSE);
-
-        let oldHeight = document.body.scrollHeight;
-        await delay(900);
-        if (document.body.scrollHeight === oldHeight) {
-            console.log("No more content seems to be loading → stopping load phase");
-            break;
-        }
-
-        loadAttempts++;
+        return false;
     }
 
-    console.log(`\nLoading finished after ${loadAttempts} attempts. Now looking for Connect buttons...\n`);
-
-    while (connectCount < MAX_CONNECT_CLICKS) {
-        const connectBtns = [...document.querySelectorAll('button')]
-            .filter(el =>
-                el.textContent.trim() === 'Connect' &&
-                el.offsetParent !== null &&
-                !el.disabled &&
-                !el.closest('[class*="premium"], [class*="upsell"], [aria-label*="Premium"]') // avoid premium walls
-            );
-
-        if (connectBtns.length === 0) {
-            console.log("No more visible Connect buttons found on this page");
-            break;
-        }
-
-        console.log(`Found ${connectBtns.length} Connect button(s) → clicking one...`);
-
-        let btn = connectBtns[0];
-        btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        await delay(500);
-
-        btn.click();
-        connectCount++;
-
-        await delay(800); 
-
+    // Helper: handle the "Send" / modal step after clicking Connect
+    async function handleModal() {
+        await delay(800);
+        // Try to find Send without note button first
         let send = [...document.querySelectorAll('button')]
-            .find(el => 
-                el.textContent.includes('Send') && 
+            .find(el =>
+                (el.textContent.includes('Send without a note') || el.textContent.trim() === 'Send') &&
                 (el.className.includes('primary') || el.className.includes('artdeco-button--primary'))
             );
-
         if (send) {
             send.click();
             sentCount++;
-            console.log(`✅ Sent connection #${sentCount} / click #${connectCount}`);
+            console.log(`✅ Sent connection #${sentCount} (click #${connectCount})`);
             await delay(WAIT_AFTER_MODAL + Math.random() * 900);
-        } else {
-            let close = document.querySelector('button[aria-label*="Dismiss"], button.artdeco-modal__dismiss, button[aria-label*="Close"]');
-            if (close) close.click();
-            console.log(`Modal closed (no Send needed or already connected)`);
+            return true;
         }
-
-        await delay(WAIT_BETWEEN_CLICKS + Math.random() * 1200); 
+        // No Send button — dismiss modal if any
+        const close = document.querySelector(
+            'button[aria-label*="Dismiss"], button.artdeco-modal__dismiss, button[aria-label*="Close"]'
+        );
+        if (close) {
+            close.click();
+            console.log(`ℹ️ Modal dismissed (already connected or other state)`);
+        }
+        return false;
     }
 
-    console.log(`\nFinished.\nClicked Connect → ${connectCount} times\nProbably sent → ${sentCount} invites`);
+    // ── MAIN LOOP ─────────────────────────────────────────
+    while (connectCount < MAX_CONNECTS) {
 
+        // 1. Check for visible Connect buttons first (no scrolling needed)
+        let visible = getVisibleConnectBtns();
+
+        if (visible.length > 0) {
+            let btn = visible[0];
+            btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            await delay(400);
+            btn.click();
+            connectCount++;
+            console.log(`🔗 Clicked Connect (${connectCount}/${MAX_CONNECTS})`);
+            await handleModal();
+            await delay(WAIT_BETWEEN_CLICKS + Math.random() * 1200);
+            continue;
+        }
+
+        // 2. No visible buttons — check if any exist below fold
+        const allBtns = getAllConnectBtns();
+        if (allBtns.length > 0) {
+            // Smoothly scroll to the next button just below viewport
+            const nextBtn = allBtns[0];
+            nextBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            await delay(1000);
+            continue; // Re-check visible on next iteration
+        }
+
+        // 3. No buttons at all — try to load more results
+        console.log("⏬ No Connect buttons found — trying to load more...");
+        const loaded = await tryLoadMore();
+        if (loaded) continue;
+
+        // 4. Truly nothing left
+        console.log("🏁 No more Connect buttons or pages to load. Done!");
+        break;
+    }
+
+    console.log(`\n✨ Finished!\n   Clicked Connect → ${connectCount} times\n   Invites sent    → ${sentCount}`);
 })();
