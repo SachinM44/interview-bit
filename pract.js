@@ -1,43 +1,18 @@
-// ///debound
+// Flatten a nested array using recursion
+const arr = [1, [2, [3, 4]], 5];
 
-// const debounce = (fn, delay) => {
-//   let timer;
-//   return (...args) => {
-//     clearInterval(timer);
-//     timer = setTimeout(() => {
-//       fn.apply(this, args);
-//     }, delay);
-//   };
-// };
+const flatIt = (array) => {
+  const result = [];
 
-// /// to use that
-
-// const debouncedCall = debounce(() => {
-//   console.log("hello from debounce");
-// }, 5000);
-
-// debouncedCall();
-
-///// throttling
-
-const throttling = (fn, delay) => {
-  let lastCall = 0;
-  return (...args) => {
-    const now = Date.now();
-    console.log(now);
-    if (now - lastCall >= delay) {
-      lastCall = now;
-      fn.apply(this, args);
+  for (let i = 0; i < array.length; i++) {
+    if (Array.isArray(array[i])) {
+      result.push(...flatIt(array[i]));
+    } else {
+      result.push(array[i]);
     }
-  };
+  }
+  return result;
 };
-
-const thorttledFN = throttling(() => {
-  console.log("hello there from thottling");
-}, 20000);
-
-//thorttledFN();
-
-setInterval(() => {
-    thorttledFN()
-}, 500);
+console.log(flatIt(arr));
+// Output:
+// [1, 2, 3, 4, 5]
