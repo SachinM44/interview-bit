@@ -1,47 +1,60 @@
-import { useRef, useState } from 'react'
-import './App.css'
-import Button from './componets/button'
+import { useState , useEffect, useContext} from "react"
+import { UserContext } from "./conext/useCallback";
+/// use con
+// etxt is the special hook that lets use acces ontext value , without qrapping up the functions with the constext.consumer
+const App = () => {
 
-function App() {
-  const [count, setCount] = useState<number>(0)
-  const timeRef = useRef<number | null>(null);
 
-  const onStart = (): void => {
 
-    if (timeRef.current) {
-      clearInterval(timeRef.current)
-    }
-    timeRef.current = setInterval(() => {
-      /// so here the problem is here , this setInterval run on different que , so we are here not using any use effect , and everytime it refernace to the count varible it get it as 0 only 
-      ////so what we can do , any method that useState updates , it accepts the callback function as well for undating the count varible (may be anything) so do add callback fn 
-      setCount((count:number) => count + 1)
-    }, 1000);
-  }
+  const 
   
-  const onResume = (): void => {
 
-    if (timeRef.current) {
-      clearInterval(timeRef.current)
-      timeRef.current = null
-    } else {
-      timeRef.current = setInterval(() => {
-        setCount((count) => count + 1)
-      }, 1000)
-    }
+  const [todos, setTodos]=useState([])/// so this will have empty array  right , the todo arrat
+  const [input, setInput ]=useState('');
+  const [loading, seLoading]=useState(false);
+////
+
+useEffect(()=>{
+
+const fetchAPI=()=>{
+  fetch('url')
+  .then(res=>res.json())//we have to string fy ths
+  .then(data=>setTodos(data))//data
+
+
+  ///clearpn 
+
+  return()=>{
+    console.log( "this is getting cleanededup ")
   }
-
-  return (
-    <>
-      <div className='flex flex col'>
-        <p>
-          count is : {count}
-        </p>
-        <Button onClick={onStart} name='start' />
-        <Button onClick={onResume} name='resume' />
-      </div>
-
-    </>
-  )
 }
 
+},[todos])
+
+
+if(!todos){
+  return <div>loaindg</div>
+}
+
+
+const addTodo=()=>{
+  setTodos([...todos,input])
+  setInput('')///unmounting the setinput thing
+}
+
+  return (
+   <UserContext.Provider value={{user, setUsr}}>
+     <div>
+    <p>hello there</p>
+  <input type="text" onChange={(e)=>setInput(e.target.value)} value={input} />
+  <button onClick={addTodo}> add todo</button>
+  <ul>
+    {todos.map(index, todo)=> <li key={index}>{todo}</li>}
+  </ul>
+    </div>/// so when the provider valye changes all the things that there at the consumer componet will rereders</UserContext.Provider>
+
+   </UserContext>
+  )
+
+}
 export default App
