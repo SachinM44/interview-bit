@@ -23,25 +23,35 @@ function App() {
   /// how u gonna use that debounce thing 
 
   const [hasterm, setTerm] = useState<string>("")
- const [result, setReslut]=useState(null)
-  
+  const [result, setReslut] = useState(null)
+
   const handleChage = useDbounce((value: string) => {
     setTerm(value)
     console.log('this is getting fired')
   }, 2000)
 
   useEffect(() => {
-    if (!hasterm) {
-      return
+    const fetchApi = async () => {
+      const cancelled = false;
+      try {
+        const res = await fetch('/////')
+        const data = await res.json()
+        if (!cancelled) {
+          setReslut(data)
+        }
+      } catch (err) {
+        console.log(err, 'somthing went wrong')
+      }finally{
+        if(!cancelled){
+          setTerm(false)
+        }
+      }
     }
 
-    const fetchData = async () => {
-      const response = await fetch('https://jsonplaceholder.typicode.com/todos/1')
-      const data = await response.json();
-      setReslut(data)
+    return ()=>{
+      canceed=true
     }
-    fetchData()
-  }, [hasterm])
+  }, [useEffect])
 
   return (
     <div>
