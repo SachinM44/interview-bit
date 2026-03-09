@@ -11,15 +11,15 @@ export const App = () => {
     const [user, setUse] = useState({ name: 'mai', role: 'amdin' })
     return (
         <userContext.provider value={{ name: "sachin", role: 'aded0', }}>
-<boruwrdROunter>
-    <router>
-        route
-    </router>
-</boruwrdROunter>
+            <boruwrdROunter>
+                <router>
+                    route
+                </router>
+            </boruwrdROunter>
 
-            </Head>
+        </Head>
 
-        </userContext>
+        </userContext >
     )
 }
 
