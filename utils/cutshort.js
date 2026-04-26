@@ -24,7 +24,6 @@
             .filter(btn => !btn.disabled && btn.offsetParent !== null);
     }
 
-    // Faster modal handler
     async function handleApplyModal() {
         await delay(WAIT_MODAL_OPEN);
 
