@@ -74,10 +74,8 @@
         currentBtn.click();
         applyCount++;
 
-        // Handle modal quickly
         await handleApplyModal();
 
-        // Short wait before next apply
         await delay(WAIT_BETWEEN_APPLIES + Math.random() * 600);
     }
 
