@@ -34,7 +34,6 @@
             });
 
         if (sendButton) {
-            // Quick click without too much scrolling
             sendButton.scrollIntoView({ behavior: 'instant', block: 'center' });
             await delay(300);
             sendButton.click();
