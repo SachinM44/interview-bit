@@ -48,7 +48,6 @@
         } 
         else {
             console.log("⚠️ Send button not found");
-            // Quick close attempt
             const closeBtn = document.querySelector('button[aria-label*="Close"], button[aria-label*="Dismiss"], button.x, .close');
             if (closeBtn) closeBtn.click();
             return false;
