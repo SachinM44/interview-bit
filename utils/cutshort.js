@@ -28,7 +28,6 @@
     async function handleApplyModal() {
         await delay(WAIT_MODAL_OPEN);
 
-        // Find Send button - more robust selector
         let sendButton = [...document.querySelectorAll('button')]
             .find(btn => {
                 const text = btn.textContent.trim();
