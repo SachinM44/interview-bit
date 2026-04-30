@@ -1,56 +1,18 @@
-const nums = [3, 44, 6, 44, 2, 2, 1];
+/// jus the api login
 
-const reult = nums.findIndex((n) => n >= 44);
-console.log(reult);
-
-///promis
-
-const fetcDaat = () => {
-  return new Promise((res, rej) => {
-    setTimeout(() => {
-      res(nums);
-    }, 2000);
-  })
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-
-const docker = new Promise((res, rej) => {
-  let success = false;
-  if (success) {
-    res("completed");
+const apiEndpoint = new Promise((res, rej) => {
+  const apiMockData = {
+    name: "sachin",
+    age: 22,
+  };
+  const SC = 200;
+  if ((SC = 200)) {
+    res(apiMockData);
   } else {
-    rej("go home");
+    res.json({
+      msg: "somthign went wrong",
+    });
   }
+
+  apiEndpoint.then(() => {});
 });
-
-docker
-  .then((msg) => {
-    console.log(msg);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-///promisfied dn
-
-const promisifiedFn = () => {
-  return new Promise((res, rej) => {
-    setTimeout(() => {
-      res({ name: "sachin" });
-      rej({ error: "go  home" });
-    }, 2000);
-  });
-};
-
-promisifiedFn()
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
