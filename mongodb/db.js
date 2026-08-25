@@ -1,6 +1,19 @@
 const { mongoose } = require("mongoose");
 mongoose.connect('mongodb+srv://new1:dalal123@cluster0.tjyhh.mongodb.net/')
+const {mongoose } =require('m\
+    o')
 
+    const bankschma = new mongoose.Schema({
+        name: String,
+
+        UserId: mongoose.Schema.Types.ObjectId,
+        ref:'User'
+        ,
+        email:{
+            requred:strue:
+            type 
+        }
+    })
 const UserSchema= new mongoose.Schema({
     name:String,
     email : {type:String,
@@ -16,6 +29,11 @@ const TodoSchema=new mongoose.Schema({
     done :Boolean
     
 })
+
+const User= mongoose.model('user', UserSchema)
+module.exports={
+    
+}
 
 const User = mongoose.model('User', UserSchema); // 
 const Todo = mongoose.model('Todo', TodoSchema); 

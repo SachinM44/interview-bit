@@ -16,12 +16,12 @@
     let never 
     let getSpoiled
 }) 
-// now those varible inside the IIFE will never gets pulluted , and they will kill once the funvtion is executed 
+// now those variable inside the IIFE will never gets pulluted , and they will kill once the funvtion is executed 
 //2nd -> execute an async function
 // how ill you write normal fetch call 
 const data=0;
 async function getData(params) {
-  data= await fetch("________")
+  data= await fetch("______")
 }
 // but this way will make you better 
 const date=(async ()=>await fetch())()

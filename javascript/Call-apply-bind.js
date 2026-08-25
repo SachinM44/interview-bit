@@ -5,7 +5,7 @@ function cook(ing, ing2, in3) {
 }
 const adam = { name: "adam" };
 cook.call(adam, "rice", "plat", "chiken");
-// what the thing here is that by using the call ican pass the argument to the function
+// what the thing here is that by using the call i can pass the argument to the function
 // basically it call the parameters one by one
 //////////////////////////////////////
 // / in the applay it set to array but not the list as mentioned above
