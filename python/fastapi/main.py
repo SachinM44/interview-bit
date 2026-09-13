@@ -28,6 +28,15 @@ async def get_number(id_no: int):
         "id_no" : id_no
     }
 
-
 #then the output will be like if u dont sent the number or int only 
 #{"detail":[{"type":"int_parsing","loc":["path","id_no"],"msg":"Input should be a valid integer, unable to parse string as an integer","input":"33a"}]}
+
+#so now the multiple params 
+
+@app.get("/users/{user_id}/items/{item_id}")
+async def get_name_and_item_id(user_id:int, item_id:int):
+    return {
+        "user_id": user_id,
+        "item_id":item_id
+    }
+
