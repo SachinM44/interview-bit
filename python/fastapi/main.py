@@ -73,3 +73,19 @@ async def optional_query_params( q : str | None):
     return {
         "q" : q
     }
+
+
+#now the pydantic validation 
+
+from pydantic import BaseModel
+
+class Items(BaseModel):
+    name:str 
+    age: int
+    married: bool
+
+@app.post("/info")
+async def pydantic_validation(item:Items):
+    return{
+        "recived" : item
+    }
