@@ -66,4 +66,10 @@ async def query_params(skip:int=0, limit:int=20):
 # {"skip":5,"limit":10}, so that means its askiied top 5 in in under the limit of 10 
 
 
+#what if th equery prama would be the optinla 
 
+@app.get("/optional")
+async def optional_query_params( q : str | None):
+    return {
+        "q" : q
+    }
