@@ -40,3 +40,30 @@ async def get_name_and_item_id(user_id:int, item_id:int):
         "item_id":item_id
     }
 
+
+
+# now the imp one which is query params 
+# so query parasms are like u quessry using ? 
+# app.get('/items', (req, res) => {
+#   const skip = req.query.skip;  // "0" (string)
+#   const limit = req.query.limit; // "10" (string)
+#   res.json({ skip, limit });
+# }); in expresst , so that it can skipt that much , so write that in pythin 
+
+
+
+@app.get("/veggies")
+async def query_params(skip:int=0, limit:int=20):
+    return {
+   "skip" : skip, 
+   "limit" : limit
+}
+
+
+# so the route will be this : http://localhost:8000/veggies?skip=5&limit=10
+# and the output like this 
+
+# {"skip":5,"limit":10}, so that means its askiied top 5 in in under the limit of 10 
+
+
+
