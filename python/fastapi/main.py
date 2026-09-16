@@ -84,6 +84,10 @@ class Items(BaseModel):
     age: int
     married: bool
 
+    #and if some filed is optional 
+
+    havecar: str | None = None
+
 @app.post("/info")
 async def pydantic_validation(item:Items):
     return{
