@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 
+
+
 app=FastAPI()
 
 @app.get("/")
@@ -77,7 +79,7 @@ async def optional_query_params( q : str | None):
 
 #now the pydantic validation 
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 class Items(BaseModel):
     name:str 
@@ -92,4 +94,19 @@ class Items(BaseModel):
 async def pydantic_validation(item:Items):
     return{
         "recived" : item
+    }
+
+
+# create blog endpoint 
+
+
+class PostCreate(BaseModel): 
+    title: str = Field(min_length=1, max_length=15)
+    contents: str =Field(min_length=10, max_length=200) 
+    author=str= Field( min_length=1, max_length=15)
+
+@app.get("/create")
+async def create_blogs(items: PostCreate):
+    return {
+        "title": items
     }
