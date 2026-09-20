@@ -34,3 +34,6 @@ cook_food(["tomato" , "onion"], "indian", "veg")
 
 
 # print(f"time taken by api gemini is {end_time-start_time} seconds")
+x=1
+if(x>5):
+  print(x)
