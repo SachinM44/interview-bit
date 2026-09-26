@@ -69,7 +69,7 @@ async def optional_query_params(q: str | None):
 # now the pydantic validation
 
 from pydantic import BaseModel, Field
-import time
+from datetime import datetime
 
 
 class Items(BaseModel):
@@ -90,10 +90,38 @@ async def pydantic_validation(item: Items):
 # create blog endpoint Create a post → get 201 response with id=1
 
 
+# what comes into the server
 class PostCreate(BaseModel):
     title: str = Field(min_length=1, max_length=15)
-    contents: str = Field(min_length=10, max_length=200)
-    author = str = Field(min_length=1, max_length=15)
+    content: str = Field(min_length=10, max_length=200)
+    author: str = Field(min_length=1)
+
+
+# what comes out to back to the user
+
+
+class PostOut(BaseModel):
+    id: int
+    title: str
+    content: str
+    author: str
+    created_at: str
+
+
+# post is done , lets do comments
+
+
+class PostComment(BaseModel):
+    author: str = Field(min_length=1)
+    text: str = Field(min_length=10, max_length=25)
+
+
+class PostCommentOut(BaseModel):
+    id: int
+    author: str
+    text: str
+    post_id: int
+    created_at: str
 
 
 @app.post("/create")
