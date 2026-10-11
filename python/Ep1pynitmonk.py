@@ -26,3 +26,18 @@ b = [910]
 
 print(b)
 # it gives the 910 only becouse its reassining u are not appening
+
+
+# so what would be the ans here
+
+
+state = {"message": []}  # its an emply dict where messay key holds nothing as  value
+
+node_a_view = state
+node_a_view = state["message"].append("hi")
+print(state["message"])
+
+
+# so the asn will be hi , this is happneds we shared the same mutable state arrocoss diff steps where it carries the same ref with each line compilation
+# so immutables are , int , fload , bool , tuple , freozenset , bytes
+# and mutale is dict , set, bytearray
