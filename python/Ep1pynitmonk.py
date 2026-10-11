@@ -17,3 +17,12 @@ b = a
 b.append(4)
 print(a)
 # output will be 1,2,3,4 , why, bcz this is mutable where the above float , int ,str are immutable where list, dict , array , objects are
+
+
+# reassinment
+a = [3.5, 6, 7]
+a = b
+b = [910]
+
+print(b)
+# it gives the 910 only becouse its reassining u are not appening
