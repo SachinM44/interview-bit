@@ -43,3 +43,17 @@ print(state["message"])
 # and mutale is dict , set, bytearray
 # also in mutable , values gets updated but the ref , but they are in immutable, opposite
 # alos list means array in py where dict is object or json
+
+
+# famous qns
+
+
+def add(x, bucket=[]):
+    bucket.append(x)  # so u just adding into the bucket as next item ,
+    return bucket
+
+
+print(add(1))
+print(add(12))
+
+# output will be [1,2]
