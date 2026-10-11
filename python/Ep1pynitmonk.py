@@ -41,3 +41,5 @@ print(state["message"])
 # so the asn will be hi , this is happneds we shared the same mutable state arrocoss diff steps where it carries the same ref with each line compilation
 # so immutables are , int , fload , bool , tuple , freozenset , bytes
 # and mutale is dict , set, bytearray
+# also in mutable , values gets updated but the ref , but they are in immutable, opposite
+# alos list means array in py where dict is object or json
