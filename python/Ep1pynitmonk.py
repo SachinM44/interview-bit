@@ -87,3 +87,20 @@ ops = {"+": add, "- ": sub}  # here i used that fn as the values of dict
 
 print(ops["+"](10, 3))
 print(ops["- "](10 - 22))
+
+
+# shallow copy vs deeep copy - so here shallow copy duplicateds the outer layer and but inneer contenet left as it is , but deep copy does end to end copy
+
+
+a = [2, 3, 4]
+b = a  # here its not copy , jsut ref again
+b.append(5)
+print(a)  # same , 1,2,3,4,5
+
+
+# now actual shollow copu
+a = [1, 2, 4, 5]
+b = a.copy()
+b.append(6)
+print(a)  # so the output now here is  a=1,2,4,5 - its un affected
+print(b)  # but here its get affect and 6 will be added
