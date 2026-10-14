@@ -59,3 +59,13 @@ print(add(12))
 # output will be [1,2]
 
 # also think everythign is object in python
+
+
+# function are the first -calss ojects
+
+
+def hello():  # so now this is the fn , under the hood this is the object which stores the vlaue and ref right
+    return "hellow man "
+
+
+x = hello  # if u print this type od this x , it will be fn , becouse the hello is an fn and the bject at the same time so it  x will refer to that and wont be treated as the int
