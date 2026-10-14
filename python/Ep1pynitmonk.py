@@ -69,3 +69,21 @@ def hello():  # so now this is the fn , under the hood this is the object which 
 
 
 x = hello  # if u print this type od this x , it will be fn , becouse the hello is an fn and the bject at the same time so it  x will refer to that and wont be treated as the int
+x = hello()  # now it will work and print hellow man , with that bracket
+
+
+# next one imp work
+
+
+def add(a, b):
+    return a + b
+
+
+def sub(a, b):
+    return a - b
+
+
+ops = {"+": add, "- ": sub}  # here i used that fn as the values of dict
+
+print(ops["+"](10, 3))
+print(ops["- "](10 - 22))
