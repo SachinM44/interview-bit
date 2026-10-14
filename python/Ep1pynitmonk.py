@@ -57,3 +57,5 @@ print(add(1))
 print(add(12))
 
 # output will be [1,2]
+
+# also think everythign is object in python
