@@ -1,0 +1,16 @@
+{
+  "risks": [
+    {
+      "name": "Diagnostic Errors and Misdiagnosis",
+      "description": "AI models trained on biased or incomplete datasets may produce inaccurate diagnoses, potentially leading to incorrect treatments, delayed care, or patient harm, particularly for underrepresented populations."
+    },
+    {
+      "name": "Data Privacy and Security Vulnerabilities",
+      "description": "Healthcare AI systems process highly sensitive patient data, creating significant risks of data breaches, unauthorized access, or misuse of personal health information, which can violate patient privacy and regulatory compliance such as HIPAA."
+    },
+    {
+      "name": "Lack of Explainability and Clinical Accountability",
+      "description": "Many AI systems operate as black boxes, making it difficult for clinicians to understand or validate their reasoning, which undermines trust, complicates liability in cases of errors, and may lead to over-reliance on AI recommendations without proper clinical judgment."
+    }
+  ]
+}
